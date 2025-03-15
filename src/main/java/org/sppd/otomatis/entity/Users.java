@@ -13,15 +13,12 @@ import java.util.List;
 @Entity(name = "users")
 public class Users {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "user_id", nullable = false)
-    private String userId;
-
     private String name;
 
     private String password;
 
+    @Id
+    @Column(name = "user_id")
     private String username;
 
     @ManyToOne
@@ -33,4 +30,8 @@ public class Users {
 
     @Enumerated(EnumType.STRING)
     private UserRoles roles;
+
+    private String token;
+
+    private long expiredAt;
 }

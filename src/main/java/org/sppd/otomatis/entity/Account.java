@@ -20,6 +20,7 @@ public class Account {
     @Column(name = "number", nullable = false)
     private String accountNumber;
 
+
     @Column(name = "name", nullable = false)
     private String accountName;
 
