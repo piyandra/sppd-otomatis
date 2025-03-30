@@ -1,0 +1,23 @@
+### GET request to example server
+POST localhost:3000/user/register
+Content-Type: Application/json
+
+{
+  "username" : "agustus12",
+  "password" : "12345612311",
+  "name" : "Viandra Stefani"
+}
+
+### GET request to example server
+GET localhost:3000/user/login
+Content-Type: Application/json
+
+{
+  "username": "agustus12",
+  "password": "12345612311"
+}
+
+
+
+
+###
