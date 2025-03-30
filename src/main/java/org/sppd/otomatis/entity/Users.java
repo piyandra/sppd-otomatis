@@ -21,12 +21,6 @@ public class Users {
     @Column(name = "user_id")
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "branch_id")
-    private Branch branch;
-
-    @OneToMany(mappedBy = "users")
-    private List<Transaction> transaction;
 
     @Enumerated(EnumType.STRING)
     private UserRoles roles;

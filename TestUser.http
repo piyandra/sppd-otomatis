@@ -1,0 +1,31 @@
+### GET request to example server
+POST localhost:3000/api/v1/user/register
+Content-Type: Application/json
+
+{
+  "username" : "gelapbang",
+  "password" : "123123456",
+  "name" : "Viandra Stefani"
+}
+
+### GET request to example server
+GET localhost:3000/api/v1/user/login
+Content-Type: Application/json
+
+{
+  "username": "gelapbang",
+  "password": "123123456"
+}
+
+### GET request to example server
+POST localhost:3000/api/v1/user/logout
+Content-Type: Application/json
+
+{
+  "token": "2a149dda-a421-4e3c-b141-5232f767f9f3"
+}
+
+
+
+
+###

@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class TokenResponse{
-    private String token;
-    private long expiredAt;
+public class LoginRequests {
 
+    @NotNull
+    private String username;
+    @NotNull
+    private String password;
 }
