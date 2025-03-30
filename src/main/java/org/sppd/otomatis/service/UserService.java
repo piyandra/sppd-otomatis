@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -38,10 +39,11 @@ public class UserService {
 
     @Transactional
     public TokenResponse loginUser(LoginRequests login){
-        Users user = userRepository.findById(login.getUsername()).orElseThrow(() -> new RuntimeException("User tidak valid"));
+        Users user = userRepository.findById(login.getUsername())
+                .orElseThrow(() -> new RuntimeException("User atau password tidak valid"));
         if (!Bcrypt.checkpw(login.getPassword(), user.getPassword())){
             log.info(user.getPassword());
-            throw new RuntimeException("Password tidak valid");
+            throw new RuntimeException("User atau password tidak valid");
         }
         String token = UUID.randomUUID().toString();
         user.setToken(token);
@@ -51,5 +53,21 @@ public class UserService {
                 .token(token)
                 .expiredAt(user.getExpiredAt())
                 .build();
+
+    }
+    @Transactional
+    public void logOutUser(String token){
+        Optional<Users> user = userRepository.findFirstByToken(token);
+        System.out.println(user.toString());
+        System.out.println(token);
+
+        user.ifPresent(users -> {
+            users.setToken(null);
+            users.setExpiredAt(0);
+            userRepository.save(users);
+        });
+        if (user.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
     }
 }

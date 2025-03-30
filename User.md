@@ -112,7 +112,11 @@ Method: `PUT`
 ### Success Response
 ```json
 {
-    "message": "User updated successfully"
+    "message": "Data Error",
+    "data": {
+        "username": "Username already exists",
+        "password": "Password is too weak"
+    }
 }
 ```
 
