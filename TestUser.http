@@ -3,7 +3,7 @@ POST localhost:3000/api/v1/user/register
 Content-Type: Application/json
 
 {
-  "username" : "gelapbang",
+  "username" : "hardy",
   "password" : "123123456",
   "name" : "Viandra Stefani"
 }
@@ -13,19 +13,21 @@ GET localhost:3000/api/v1/user/login
 Content-Type: Application/json
 
 {
-  "username": "gelapbang",
+  "username": "hardy",
   "password": "123123456"
 }
 
 ### GET request to example server
-POST localhost:3000/api/v1/user/logout
+GET localhost:3000/api/v1/user/logout
 Content-Type: Application/json
 
 {
-  "token": "2a149dda-a421-4e3c-b141-5232f767f9f3"
+  "token": "041bfda6-4132-44af-b20b-f9e5152278c0"
 }
 
-
+### GET ME
+GET localhost:3000/api/v1/users/hardy/me
+Authorization: Bearer 01e271e6-d394-49ae-90a1-b09c309b4c7b
 
 
 ###
