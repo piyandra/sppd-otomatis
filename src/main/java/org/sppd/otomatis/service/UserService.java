@@ -8,19 +8,20 @@ import org.sppd.otomatis.dto.UserRequest;
 import org.sppd.otomatis.entity.UserRoles;
 import org.sppd.otomatis.entity.Users;
 import org.sppd.otomatis.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     @Transactional
@@ -42,12 +43,11 @@ public class UserService {
         Users user = userRepository.findById(login.getUsername())
                 .orElseThrow(() -> new RuntimeException("User atau password tidak valid"));
         if (!Bcrypt.checkpw(login.getPassword(), user.getPassword())){
-            log.info(user.getPassword());
             throw new RuntimeException("User atau password tidak valid");
         }
         String token = UUID.randomUUID().toString();
         user.setToken(token);
-        user.setExpiredAt(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
+        user.setExpiredAt(System.currentTimeMillis() + 86_400_000L);
         userRepository.save(user);
         return TokenResponse.builder()
                 .token(token)
@@ -57,17 +57,19 @@ public class UserService {
     }
     @Transactional
     public void logOutUser(String token){
-        Optional<Users> user = userRepository.findFirstByToken(token);
-        System.out.println(user.toString());
-        System.out.println(token);
-
-        user.ifPresent(users -> {
-            users.setToken(null);
-            users.setExpiredAt(0);
-            userRepository.save(users);
-        });
-        if (user.isEmpty()) {
-            throw new RuntimeException("User not found");
+        userRepository.findFirstByToken(token).map(u -> {
+            u.setToken(null);
+            u.setExpiredAt(0);
+            return userRepository.save(u);
+        }).orElseThrow(() -> new RuntimeException("User Not Found"));
+    }
+    @Transactional
+    public Users getUserDetails(String requests) {
+        Users users = userRepository.findById(requests)
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+        if (users.getExpiredAt() < System.currentTimeMillis()){
+            throw new RuntimeException("User Expired");
         }
+        return users;
     }
 }
