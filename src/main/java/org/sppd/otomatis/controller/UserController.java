@@ -39,7 +39,6 @@ public class UserController {
     produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<TokenResponse>> login(@Valid @RequestBody LoginRequests loginRequests) {
-        TokenResponse tokenResponse = userService.loginUser(loginRequests);
         return ResponseEntity
                 .ok(WebResponse.<TokenResponse>builder()
                         .message("Login Success")
@@ -52,8 +51,8 @@ public class UserController {
                     consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<String>> logout(@RequestBody LogOutRequest token) {
         userService.logOutUser(token.getToken());
-        return ResponseEntity
-                .ok(WebResponse.<String>builder().message("Sukses")
+        return ResponseEntity.ok(WebResponse.<String>builder()
+                        .message("Sukses")
                         .build());
     }
 

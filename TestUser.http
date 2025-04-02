@@ -3,8 +3,8 @@ POST localhost:3000/api/v1/user/register
 Content-Type: Application/json
 
 {
-  "username" : "hardy",
-  "password" : "123123456",
+  "username" : "tomlembong",
+  "password" : "12312",
   "name" : "Viandra Stefani"
 }
 
@@ -13,7 +13,7 @@ GET localhost:3000/api/v1/user/login
 Content-Type: Application/json
 
 {
-  "username": "hardy",
+  "username": "tomholland",
   "password": "123123456"
 }
 
@@ -22,12 +22,12 @@ GET localhost:3000/api/v1/user/logout
 Content-Type: Application/json
 
 {
-  "token": "01e271e6-d394-49ae-90a1-b09c309b4c7b"
+  "token": "b37a8d81-4818-4c20-a6d9-a51da3f82944"
 }
 
 ### GET ME
-GET localhost:3000/api/v1/users/hardy/me
-Authorization: Bearer 683d8569-c460-404e-a7be-883ed718ee57
+GET localhost:3000/api/v1/users/viandrastef/me
+Authorization: Bearer f88216bc-6d15-4b3c-9cda-77292693df44
 
 
 ###
