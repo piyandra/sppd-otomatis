@@ -4,7 +4,7 @@ Content-Type: Application/json
 
 {
   "username" : "tomlembong",
-  "password" : "12312",
+  "password" : "12312123",
   "name" : "Viandra Stefani"
 }
 
@@ -13,8 +13,8 @@ GET localhost:3000/api/v1/user/login
 Content-Type: Application/json
 
 {
-  "username": "tomholland",
-  "password": "123123456"
+  "username": "tomlembong",
+  "password": "12312123"
 }
 
 ### Log Out User
@@ -26,8 +26,26 @@ Content-Type: Application/json
 }
 
 ### GET ME
-GET localhost:3000/api/v1/users/viandrastef/me
-Authorization: Bearer f88216bc-6d15-4b3c-9cda-77292693df44
+GET localhost:3000/api/v1/users/halo/me
+Authorization: Bearer a12a7c4c-5795-407c-8945-971d5475b65c
 
 
-###
+### Add Slip
+POST localhost:3000/api/v1/slip/create
+Content-Type: Application/json
+Authorization: Bearer a12a7c4c-5795-407c-8945-971d5475b65c
+
+{
+  "bank": "BANK JATENG",
+  "transferDate": "2025-03-10 00:00:00",
+  "keterangan": "Test Slip",
+  "nominal": 1,
+  "kantor": "KAS KALIKAJAR",
+  "pimpinan": "Kintil"
+
+}
+
+### Get Bank
+GET localhost:3000/api/v1/bank
+Content-Type: Application/json
+Authorization: Bearer a12a7c4c-5795-407c-8945-971d5475b65c

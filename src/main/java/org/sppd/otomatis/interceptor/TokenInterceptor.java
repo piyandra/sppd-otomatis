@@ -28,4 +28,8 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
         return tokenService.isValidToken(token.substring(7));
     }
+
+
+
+
 }

@@ -28,4 +28,7 @@ public class Users {
     private String token;
 
     private long expiredAt;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Slip> slip;
 }
