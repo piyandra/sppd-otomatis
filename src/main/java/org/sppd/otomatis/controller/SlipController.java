@@ -9,12 +9,9 @@ import org.sppd.otomatis.entity.Slip;
 import org.sppd.otomatis.entity.Users;
 import org.sppd.otomatis.service.SlipServiceImpl;
 import org.sppd.otomatis.service.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -42,5 +39,25 @@ public class SlipController {
                 .data(new SlipResponse(slip))
                 .build());
 
+    }
+    @GetMapping(path = "/{slipId}/details",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<SlipResponse>> getSlipById(@Valid @PathVariable("slipId") Long slipId) {
+        Slip slip = slipService.findSlipById(slipId);
+        log.info(slip.getKeterangan());
+        SlipResponse response = new SlipResponse(slip);
+        return ResponseEntity.ok(WebResponse.<SlipResponse>builder()
+                        .message("Sukses").data(response)
+                .build());
+    }
+    @PutMapping(path = "/update/{slipId}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<SlipResponse>> updateSlip (@Valid @PathVariable("slipId") Long slipId, SlipRequests slipRequests) {
+        return ResponseEntity.ok(WebResponse.<SlipResponse>builder()
+                .data(new SlipResponse(slipService.editSlip(slipId, slipRequests)))
+                .message("Sukses")
+                .build());
     }
 }

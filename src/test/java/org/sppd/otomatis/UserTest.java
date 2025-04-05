@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.sppd.otomatis.dto.UserRequest;
 import org.sppd.otomatis.dto.WebResponse;
@@ -41,6 +42,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Register User Success")
     void registerSuccessTest() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setName("Viandra Stefani");
@@ -62,6 +64,7 @@ public class UserTest {
         });
     }
     @Test
+    @DisplayName("Register Failed Username and Password Test")
     void registerfailedPasswordAndUsernameTest() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setName("ViandraStefani");
@@ -79,6 +82,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Register Success And Get Token Test")
     public void registerSuccessGetTokenTest() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setUsername("viandrastef");
@@ -103,6 +107,7 @@ public class UserTest {
         Assertions.assertNotNull(node.get("data").get("token").asText());
     }
     @Test
+    @DisplayName("Log Out Success Test")
     public void logOutSuccessTest() throws Exception{
         UserRequest userRequest = new UserRequest();
         userRequest.setUsername("viandrastef");
@@ -139,6 +144,7 @@ public class UserTest {
                 });
     }
     @Test
+    @DisplayName("Get Me Error Token Invalid Test")
     public void getMeErrorTest() throws Exception{
         UserRequest userRequest = new UserRequest();
         userRequest.setUsername("viandrastef");
@@ -188,6 +194,7 @@ public class UserTest {
 
     }
     @Test
+    @DisplayName("Get Me Success Test")
     public void getMeSuccessTest() throws Exception{
         UserRequest userRequest = new UserRequest();
         userRequest.setUsername("viandrastef");
@@ -221,6 +228,7 @@ public class UserTest {
 
     }
     @Test
+    @DisplayName("Log Out Error Test")
     public void logOutErrorTest() throws Exception{
         UserRequest userRequest = new UserRequest();
         userRequest.setUsername("viandrastef");
@@ -256,6 +264,7 @@ public class UserTest {
                 });
     }
     @Test
+    @DisplayName("Register Failed Username Test")
     void registerfailedUsername() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setName("ViandraStefani");
@@ -286,6 +295,7 @@ public class UserTest {
                 .andExpect(jsonPath("$.data.password").value("Password must be at least 8 characters"));
     }
     @Test
+    @DisplayName("Log In Error Test")
     public void loginErrorTest() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setUsername("viandrastef");

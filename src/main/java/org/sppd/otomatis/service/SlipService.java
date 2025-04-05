@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface SlipService {
     Slip addSlip(SlipRequests slipRequests, Users users);
-    Optional<Slip> editSlip(Long slipRequests);
+    Slip editSlip(Long id, SlipRequests slipRequests);
     Optional<Slip> findSlipByDate(LocalDateTime localDateTime);
-    Optional<Slip> findSlipById(Long id);
+    Slip findSlipById(Long id);
     Optional<Slip> findSlipByKeterangan(String keterangan);
     Optional<Slip> findSlipByUser(Users users);
     Optional<Slip> findSlipByUserAndDate(SlipRequests slipRequests, LocalDateTime localDateTime);
