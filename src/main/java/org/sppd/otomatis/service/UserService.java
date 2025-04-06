@@ -1,12 +1,13 @@
 package org.sppd.otomatis.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.sppd.otomatis.Bcrypt;
+import org.sppd.otomatis.security.Bcrypt;
 import org.sppd.otomatis.dto.LoginRequests;
 import org.sppd.otomatis.dto.TokenResponse;
 import org.sppd.otomatis.dto.UserRequest;
 import org.sppd.otomatis.entity.UserRoles;
 import org.sppd.otomatis.entity.Users;
+import org.sppd.otomatis.exception.UserNotFoundException;
 import org.sppd.otomatis.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +42,9 @@ public class UserService {
     @Transactional
     public TokenResponse loginUser(LoginRequests login){
         Users user = userRepository.findById(login.getUsername())
-                .orElseThrow(() -> new RuntimeException("User atau password tidak valid"));
+                .orElseThrow(() -> new UserNotFoundException("User atau password tidak valid"));
         if (!Bcrypt.checkpw(login.getPassword(), user.getPassword())){
-            throw new RuntimeException("User atau password tidak valid");
+            throw new UserNotFoundException("User atau password tidak valid");
         }
         String token = UUID.randomUUID().toString();
         user.setToken(token);
@@ -61,12 +62,12 @@ public class UserService {
             u.setToken(null);
             u.setExpiredAt(0);
             return userRepository.save(u);
-        }).orElseThrow(() -> new RuntimeException("User Not Found"));
+        }).orElseThrow(() -> new UserNotFoundException("User Not Found"));
     }
     @Transactional
     public Users getUserDetails(String requests) {
         Users users = userRepository.findById(requests)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         if (users.getExpiredAt() < System.currentTimeMillis()){
             throw new RuntimeException("User Expired");
         }

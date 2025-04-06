@@ -254,7 +254,7 @@ public class UserTest {
         mockMvc.perform(get("/api/v1/user/logout")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(UUID.randomUUID().toString())))
-                .andExpectAll(status().isBadRequest(),
+                .andExpectAll(status().isUnauthorized(),
                         content().contentType(MediaType.APPLICATION_JSON),
                         jsonPath("$.message").value("User Not Found")
                 ).andDo(result -> {
@@ -313,7 +313,7 @@ public class UserTest {
         MvcResult loginResponse = mockMvc.perform(get("/api/v1/user/login")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpectAll(status().isBadRequest())
+                .andExpectAll(status().isUnauthorized())
                 .andExpect(jsonPath("$.message").value("User atau password tidak valid"))
                 .andReturn();
         String responses = loginResponse.getResponse().getContentAsString();

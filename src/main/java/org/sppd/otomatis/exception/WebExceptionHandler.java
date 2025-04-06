@@ -1,9 +1,9 @@
-package org.sppd.otomatis.controller;
+package org.sppd.otomatis.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.sppd.otomatis.dto.WebResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,10 +16,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
-public class UserControllerErrorHandler {
-    public static Logger getLog() {
-        return log;
-    }
+public class WebExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -37,11 +34,6 @@ public class UserControllerErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RuntimeException.class)
     public WebResponse<String> handleRuntimeException(RuntimeException e) {
-        if (e.getMessage().contains("JSON")){
-            return WebResponse.<String>builder()
-                    .message("Error")
-                    .build();
-        }
         return WebResponse.<String>builder()
                 .message(e.getMessage())
                 .build();
@@ -77,5 +69,13 @@ public class UserControllerErrorHandler {
                 .message("Data Tidak Valid")
                 .build();
     }
+    @ExceptionHandler(WebException.class)
+    public ResponseEntity<WebResponse<String>> handleWebResponseError(WebException e) {
+        return ResponseEntity.status(e.getHttpStatus())
+                .body(WebResponse.<String>builder()
+                        .message(e.getMessage())
+                        .build());
+    }
+
 
 }

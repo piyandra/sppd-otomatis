@@ -3,6 +3,7 @@ package org.sppd.otomatis.service;
 import org.sppd.otomatis.dto.SlipRequests;
 import org.sppd.otomatis.entity.Slip;
 import org.sppd.otomatis.entity.Users;
+import org.sppd.otomatis.exception.SlipNotFoundException;
 import org.sppd.otomatis.repository.SlipRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class SlipServiceImpl implements SlipService{
 
     private final SlipRepository slipRepository;
 
-    public SlipServiceImpl(SlipRepository slipRepository, TokenService tokenService) {
+    public SlipServiceImpl(SlipRepository slipRepository) {
         this.slipRepository = slipRepository;
     }
 
@@ -36,7 +37,7 @@ public class SlipServiceImpl implements SlipService{
     @Override
     public Slip editSlip(Long id, SlipRequests slipId) {
         Slip slip = slipRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Slip not found"));
+                .orElseThrow(() -> new SlipNotFoundException("Slip not found"));
         slip.setPimpinan(slipId.getPimpinan());
         slip.setNominal(slipId.getNominal());
         slip.setBank(slipId.getBank());
@@ -53,7 +54,7 @@ public class SlipServiceImpl implements SlipService{
 
     @Override
     public Slip findSlipById(Long id) {
-        return slipRepository.findById(id).orElseThrow(() -> new RuntimeException("Not Found"));
+        return slipRepository.findById(id).orElseThrow(() -> new SlipNotFoundException("Not Found"));
     }
 
     @Override
