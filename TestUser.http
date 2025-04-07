@@ -14,7 +14,7 @@ Content-Type: Application/json
 
 {
   "username": "tomleg",
-  "password": "12312wefff"
+  "password": "12312wefweff"
 }
 
 ### Log Out User
@@ -33,7 +33,7 @@ Authorization: Bearer 7ceb05bc-7e31-4d2f-b56a-032f638d8403
 ### Add Slip
 POST localhost:3000/api/v1/slip/create
 Content-Type: Application/json
-Authorization: Bearer 7ceb05bc-7e31-4d2f-b56a-032f638d8403
+Authorization: Bearer 772bdaf7-1748-4144-8952-b8ebc534d64d
 
 {
   "bank": "BCA",
@@ -53,3 +53,7 @@ Authorization: Bearer 7ceb05bc-7e31-4d2f-b56a-032f638d8403
 GET localhost:3000/api/v1/slip/7205/details
 Content-Type: Application/json
 Authorization: Bearer 7ceb05bc-7e31-4d2f-b56a-032f638d8403
+
+### Get All Slip
+GET localhost:3000/api/v1/slip/get/by-date?date=2025-04-07T00:00:00&page=3&size=2&sort=createdAt,desc
+Authorization: Bearer 772bdaf7-1748-4144-8952-b8ebc534d64d

@@ -69,7 +69,8 @@ public class UserService {
         Users users = userRepository.findById(requests)
                 .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         if (users.getExpiredAt() < System.currentTimeMillis()){
-            throw new RuntimeException("User Expired");
+            userRepository.delete(users);
+            throw new UserNotFoundException("User Expired");
         }
         return users;
     }

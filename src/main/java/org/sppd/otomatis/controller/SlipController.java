@@ -4,14 +4,17 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.sppd.otomatis.dto.SlipRequests;
 import org.sppd.otomatis.dto.SlipResponse;
+import org.sppd.otomatis.dto.SlipResponseWithManyData;
 import org.sppd.otomatis.dto.WebResponse;
 import org.sppd.otomatis.entity.Slip;
 import org.sppd.otomatis.entity.Users;
 import org.sppd.otomatis.service.SlipServiceImpl;
 import org.sppd.otomatis.service.TokenService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -58,6 +61,18 @@ public class SlipController {
         return ResponseEntity.ok(WebResponse.<SlipResponse>builder()
                 .data(new SlipResponse(slipService.editSlip(slipId, slipRequests)))
                 .message("Sukses")
+                .build());
+    }
+    @GetMapping(path = "/get/by-date")
+    public ResponseEntity<WebResponse<SlipResponseWithManyData<SlipResponse>>>
+    getSlipByUsersAndDate(@RequestHeader("Authorization") String token,
+                          @RequestParam("date") LocalDateTime date,
+                          Pageable pageable) {
+        Users usersByToken = tokenService.findUsersByToken(token);
+        SlipResponseWithManyData<SlipResponse> slipResponseWithManyData = new SlipResponseWithManyData<>(slipService.findSlipByUsersAndDate(usersByToken, date, pageable));
+        return ResponseEntity.ok(WebResponse.<SlipResponseWithManyData<SlipResponse>>builder()
+                .message("Sukses")
+                .data(slipResponseWithManyData)
                 .build());
     }
 

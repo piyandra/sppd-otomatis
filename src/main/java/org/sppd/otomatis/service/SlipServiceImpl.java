@@ -1,17 +1,22 @@
 package org.sppd.otomatis.service;
 
 import org.sppd.otomatis.dto.SlipRequests;
+import org.sppd.otomatis.dto.SlipResponse;
 import org.sppd.otomatis.entity.Slip;
 import org.sppd.otomatis.entity.Users;
 import org.sppd.otomatis.exception.SlipNotFoundException;
 import org.sppd.otomatis.repository.SlipRepository;
+import org.sppd.otomatis.util.LocalDateTimeStart;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class SlipServiceImpl implements SlipService{
+public class SlipServiceImpl implements SlipService {
 
     private final SlipRepository slipRepository;
 
@@ -68,7 +73,8 @@ public class SlipServiceImpl implements SlipService{
     }
 
     @Override
-    public Optional<Slip> findSlipByUserAndDate(SlipRequests slipRequests, LocalDateTime localDateTime) {
-        return slipRepository.findByUsersAndCreatedAt(slipRequests.getUsers(), localDateTime);
+    public Page<SlipResponse> findSlipByUsersAndDate(Users users, LocalDateTime localDateTime, Pageable pageable) {
+        Map.Entry<LocalDateTime, LocalDateTime> startAndEndOfDay = new LocalDateTimeStart().getStartAndEndOfDay(localDateTime);
+        return slipRepository.findByUsersAndCreatedAtBetween(users, startAndEndOfDay.getKey(), startAndEndOfDay.getValue(), pageable).map(SlipResponse::new);
     }
 }
