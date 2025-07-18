@@ -35,7 +35,7 @@ public class UserController {
 
     }
 
-    @GetMapping(path = "/user/login",
+    @PostMapping(path = "/user/login",
     produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<TokenResponse>> login(@Valid @RequestBody LoginRequests loginRequests) {
@@ -46,7 +46,7 @@ public class UserController {
                 .build());
     }
 
-    @GetMapping(path = "/user/logout",
+    @PostMapping(path = "/user/logout",
                 produces = MediaType.APPLICATION_JSON_VALUE,
                     consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<String>> logout(@RequestBody LogOutRequest token) {
