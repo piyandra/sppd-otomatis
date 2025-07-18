@@ -4,6 +4,7 @@ package org.sppd.otomatis.service;
 import org.sppd.otomatis.dto.SlipRequests;
 import org.sppd.otomatis.dto.SlipResponse;
 import org.sppd.otomatis.entity.Slip;
+import org.sppd.otomatis.entity.SlipStatus;
 import org.sppd.otomatis.entity.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +20,6 @@ public interface SlipService {
     Optional<Slip> findSlipByKeterangan(String keterangan);
     Optional<Slip> findSlipByUser(Users users);
     Page<SlipResponse> findSlipByUsersAndDate(Users users, LocalDateTime localDateTime, Pageable pageable);
+    Page<SlipResponse> findSlipByStatus(SlipStatus status, Pageable pageable);
 
 }

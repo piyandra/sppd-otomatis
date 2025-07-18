@@ -41,4 +41,7 @@ public class Slip {
     private Perkiraan perkiraan;
 
     private String pimpinan;
+
+    @Enumerated(EnumType.STRING)
+    private SlipStatus status;
 }

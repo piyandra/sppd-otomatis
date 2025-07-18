@@ -3,6 +3,7 @@ package org.sppd.otomatis.service;
 import org.sppd.otomatis.dto.SlipRequests;
 import org.sppd.otomatis.dto.SlipResponse;
 import org.sppd.otomatis.entity.Slip;
+import org.sppd.otomatis.entity.SlipStatus;
 import org.sppd.otomatis.entity.Users;
 import org.sppd.otomatis.exception.SlipNotFoundException;
 import org.sppd.otomatis.repository.SlipRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class SlipServiceImpl implements SlipService {
@@ -34,6 +36,7 @@ public class SlipServiceImpl implements SlipService {
                 .pimpinan(slipRequests.getPimpinan())
                 .users(users)
                 .tanggalTransfer(slipRequests.getTransferDate())
+                .status(SlipStatus.UNVERIVIED)
                 .build();
         return slipRepository.save(slip);
 
@@ -74,7 +77,15 @@ public class SlipServiceImpl implements SlipService {
 
     @Override
     public Page<SlipResponse> findSlipByUsersAndDate(Users users, LocalDateTime localDateTime, Pageable pageable) {
-        Map.Entry<LocalDateTime, LocalDateTime> startAndEndOfDay = new LocalDateTimeStart().getStartAndEndOfDay(localDateTime);
-        return slipRepository.findByUsersAndCreatedAtBetween(users, startAndEndOfDay.getKey(), startAndEndOfDay.getValue(), pageable).map(SlipResponse::new);
+        return Stream.of(new LocalDateTimeStart().getStartAndEndOfDay(localDateTime))
+                .map(range -> slipRepository.findByUsersAndCreatedAtBetween(users, range.getKey(), range.getValue(), pageable))
+                .findFirst().orElseThrow()
+                .map(SlipResponse::new);
+
+    }
+
+    @Override
+    public Page<SlipResponse> findSlipByStatus(SlipStatus status, Pageable pageable) {
+        return slipRepository.findByStatus(status, pageable).map(SlipResponse::new);
     }
 }

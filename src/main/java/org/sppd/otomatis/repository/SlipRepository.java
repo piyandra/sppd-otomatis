@@ -1,6 +1,8 @@
 package org.sppd.otomatis.repository;
 
+import org.sppd.otomatis.dto.SlipResponse;
 import org.sppd.otomatis.entity.Slip;
+import org.sppd.otomatis.entity.SlipStatus;
 import org.sppd.otomatis.entity.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +19,6 @@ public interface SlipRepository extends JpaRepository<Slip, Long> {
     Optional<Slip> findByUsers(Users users);
 
     Page<Slip> findByUsersAndCreatedAtBetween(Users users, LocalDateTime createdAtAfter, LocalDateTime createdAtBefore, Pageable pageable);
+
+    Page<Slip> findByStatus(SlipStatus status, Pageable pageable);
 }

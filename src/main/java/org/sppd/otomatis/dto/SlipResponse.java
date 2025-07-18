@@ -41,4 +41,5 @@ public class SlipResponse {
         this.tanggalTransfer = slip.getTanggalTransfer();
         this.createdAt = slip.getCreatedAt();
     }
+
 }

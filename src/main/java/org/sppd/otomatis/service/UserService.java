@@ -34,7 +34,7 @@ public class UserService {
                 .name(user.getName())
                 .password(Bcrypt.hashpw(user.getPassword(), Bcrypt.gensalt()))
                 .username(user.getUsername())
-                .roles(UserRoles.OFFICER)
+                .roles(user.getRoles())
                 .build());
 
     }

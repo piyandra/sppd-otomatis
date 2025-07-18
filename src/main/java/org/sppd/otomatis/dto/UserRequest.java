@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sppd.otomatis.entity.UserRoles;
 
 @Data
 @AllArgsConstructor
@@ -23,4 +24,7 @@ public class UserRequest {
     @NotNull
     @Size(max = 100, min = 3, message = "Username Must Be 3 to 100 characters")
     private String username;
+
+    @NotNull
+    private UserRoles roles;
 }
